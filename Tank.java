@@ -76,14 +76,16 @@ public class Tank extends Elements implements Serializable {
 }
 	
 	public void draw(PaintEvent screen, Display display) {
-		screen.gc.setForeground(display.getSystemColor(color));
-		screen.gc.drawRectangle(10*x, 10*y, 50, 50);
-		//screen.gc.fillRectangle(10*x, 10*y, 100, 100);
-		System.out.println("body: " + 10*x + 10*y);
+		//System.out.println("I T   I S   D R A W I N G !");
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
+		screen.gc.drawRectangle(10*x, 10*y, 50, 50);
+		screen.gc.fillRectangle(10*x, 10*y, 100, 100);
+		//System.out.println("body: " + 10*x + 10*y);
+		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
+		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
 		screen.gc.drawOval(10*x, 10*y, 50, 50);
-		//screen.gc.fillOval(10*x, 10*y, 100, 100);
-		screen.gc.setForeground(display.getSystemColor(color));
+		screen.gc.fillOval(10*x, 10*y, 100, 100);
 		int xOffset = 0;
 		int yOffset = 0;
 		if(direction == 1) {

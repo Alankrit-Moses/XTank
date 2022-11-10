@@ -7,7 +7,6 @@ public class ServerConnection implements Runnable
     private Client clientInstance;
     private ObjectInputStream isr;
     private ObjectOutputStream os;
-
     public ServerConnection(Socket server, Client client) throws IOException
     {
         this.clientInstance = client;
@@ -21,16 +20,34 @@ public class ServerConnection implements Runnable
         while(true)
         {
             try
-            {     
-                Elements arr[][] = (Elements[][])(isr.readObject());
-                System.out.println("asdkjalksdjalksjlkjldasd");
-                System.out.println("Got an array");
-                clientInstance.setGrid(arr);
-                clientInstance.draw();
-                os.writeObject(clientInstance.getGrid());
-                os.flush();
+            {
+            	Object obj = isr.readObject();
+            	if(obj instanceof Elements[][])
+            	{
+            		Elements arr[][] = (Elements[][])(obj);
+            		System.out.println("NON-ACCESSIBLE 1");
+                    clientInstance.setGrid(arr);
+                    System.out.println("NON-ACCESSIBLE 2");
+                    os.writeObject(clientInstance.getGrid());
+                    os.flush();
+            	}
+            	else if(((String)(obj)).equals("tank"))
+            	{
+            		System.out.println("Setting TANK!");
+            		obj = isr.readObject();
+            		Tank t = (Tank)(obj);
+                    clientInstance.setTank(t);
+            	}
+            	else if(((String)(obj)).equals("print"))
+            	{
+            		System.out.println("ORDER TO PRINT!!!");
+            		obj = isr.readObject();
+            		Elements[][] arr = (Elements[][])(obj);
+            		clientInstance.setGrid(arr);
+            	}
             }
             catch(Exception e){
+            	e.printStackTrace();
             }
         }
     }

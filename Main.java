@@ -57,6 +57,6 @@ public class Main {
 	}
 	
 	public static void draw(Canvas canvas, Elements[][] grid) {
-		
+		return;
 	}
 }

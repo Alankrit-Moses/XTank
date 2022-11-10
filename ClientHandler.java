@@ -43,32 +43,43 @@ public class ClientHandler implements Runnable {
 					Elements[][] grid = g.getGrid();
 					while(grid[x][y]!=null)
 					{
-						x = ThreadLocalRandom.current().nextInt(0,101);	
-						y = ThreadLocalRandom.current().nextInt(0,101);
+						x = ThreadLocalRandom.current().nextInt(0,20);	
+						y = ThreadLocalRandom.current().nextInt(0,20);
 					}
 					System.out.println(x+" "+y);
 					Elements tank = new Tank(x,y,1,1);
 					grid[x][y] = tank;
 					g.setGrid(grid);
-					System.out.println("WRITING SUCCESS..."+grid+"   "+grid[x][y]);
-					output.writeObject(grid);
+					System.out.println("Added new TANK!");
+					output.writeObject("tank");
+					output.writeObject(tank);
 					output.flush();
-					g.setGrid((Elements[][])(isr.readObject()));
+					//outToAll("print",grid);
+					System.out.println("WRITING SUCCESS..."+grid+"   "+grid[x][y]);
+					g.setGrid(grid);
+					//g.setGrid((Elements[][])(isr.readObject()));
 					System.out.println("SETTING SUCCESS...");
+					g.printGrid();
 				}
+				outToAll("print",g.getGrid());
 			}
 		}
 		catch(Exception e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
-	public void outToAll(Elements arr[][]) throws IOException
+	public void outToAll(Elements arr[][]) throws IOException, ClassNotFoundException
 	{
-		for(ClientHandler client: clients){
-			client.output.writeObject(g.getGrid());
-			client.output.flush();
+		for(ClientHandler client1: clients){
+			if(client1!=this)
+			{
+				client1.output.writeObject(g.getGrid());
+				client1.output.flush();
+				client1.isr.readObject();
+			}
 		}
+		System.out.println("Written to all and READ FROM ALL");
 	}
 
 	public void outToAll(String msg, Elements arr[][]) throws IOException
