@@ -1,6 +1,7 @@
-// import org.eclipse.swt.SWT;
-// import org.eclipse.swt.events.PaintEvent;
-// import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.widgets.Display;
+//import java.awt.event.PaintEvent;
 import java.io.*;
 
 public class Tank extends Elements implements Serializable {
@@ -74,37 +75,40 @@ public class Tank extends Elements implements Serializable {
 		return grid;
 }
 	
-	/*public void draw(PaintEvent screen, Display display) {
+	public void draw(PaintEvent screen, Display display) {
 		screen.gc.setForeground(display.getSystemColor(color));
-		screen.gc.fillRectangle(10*x, 10*y, 10, 10);
+		screen.gc.drawRectangle(10*x, 10*y, 50, 50);
+		//screen.gc.fillRectangle(10*x, 10*y, 100, 100);
+		System.out.println("body: " + 10*x + 10*y);
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-		screen.gc.fillOval(10*x, 10*y, 10, 10);
+		screen.gc.drawOval(10*x, 10*y, 50, 50);
+		//screen.gc.fillOval(10*x, 10*y, 100, 100);
 		screen.gc.setForeground(display.getSystemColor(color));
 		int xOffset = 0;
 		int yOffset = 0;
 		if(direction == 1) {
-			yOffset = -5;
+			yOffset = -10;
 		} else if(direction == 2) {
-			yOffset = -4;
-			xOffset = 4;
+			yOffset = -8;
+			xOffset = 8;
 		} else if(direction == 3) {
-			xOffset = 5;
+			xOffset = 10;
 		} else if(direction == 4) {
-			yOffset = 4;
-			xOffset = 4;
+			yOffset = 8;
+			xOffset = 8;
 		} else if(direction == 5) {
-			yOffset = 5;
+			yOffset = 10;
 		} else if(direction == 6) {
-			yOffset = 4;
-			xOffset = -4;
+			yOffset = 8;
+			xOffset = -8;
 		} else if(direction == 7) {
-			xOffset = -5;
+			xOffset = -10;
 		} else if(direction == 8) {
-			yOffset = -4;
-			xOffset = -4;
+			yOffset = -8;
+			xOffset = -8;
 		}
-		screen.gc.drawLine((10*x)+5, (10*y)+5, (10*x)+5+xOffset, (10*y)+5+yOffset);
-	}*/
+		screen.gc.drawLine((10*x)+25, (10*y)+25, (10*x)+25+xOffset, (10*y)+25+yOffset);
+	}
 
 	@Override
 	public String toString() {

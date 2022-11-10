@@ -26,6 +26,7 @@ public class ServerConnection implements Runnable
                 System.out.println("asdkjalksdjalksjlkjldasd");
                 System.out.println("Got an array");
                 clientInstance.setGrid(arr);
+                clientInstance.draw();
                 os.writeObject(clientInstance.getGrid());
                 os.flush();
             }
