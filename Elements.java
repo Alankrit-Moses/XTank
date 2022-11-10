@@ -1,5 +1,3 @@
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.widgets.Display;
 
 public abstract class Elements {
 	private int x;
@@ -7,7 +5,7 @@ public abstract class Elements {
 	private int color;
 	private int direction;
 	
-	public abstract void draw(PaintEvent screen, Display display);
+	//public abstract void draw(PaintEvent screen, Display display);
 	
-	public abstract Elements[][] move(Elements[][] grid, char dir);
+	//public abstract Elements[][] move(Elements[][] grid, char dir);
 }

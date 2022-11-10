@@ -1,8 +1,9 @@
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.widgets.Display;
+// import org.eclipse.swt.SWT;
+// import org.eclipse.swt.events.PaintEvent;
+// import org.eclipse.swt.widgets.Display;
+import java.io.*;
 
-public class Tank extends Elements{
+public class Tank extends Elements implements Serializable {
 	private int x;
 	private int y;
 	private int color;
@@ -73,7 +74,7 @@ public class Tank extends Elements{
 		return grid;
 }
 	
-	public void draw(PaintEvent screen, Display display) {
+	/*public void draw(PaintEvent screen, Display display) {
 		screen.gc.setForeground(display.getSystemColor(color));
 		screen.gc.fillRectangle(10*x, 10*y, 10, 10);
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
@@ -103,12 +104,10 @@ public class Tank extends Elements{
 			xOffset = -4;
 		}
 		screen.gc.drawLine((10*x)+5, (10*y)+5, (10*x)+5+xOffset, (10*y)+5+yOffset);
-	}
+	}*/
 
 	@Override
 	public String toString() {
 		return "Tank [x=" + x + ", y=" + y + ", direction=" + direction + "]";
 	}
-	
-	
 }

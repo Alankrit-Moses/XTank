@@ -4,24 +4,33 @@ import java.net.*;
 public class ServerConnection implements Runnable
 {
     private Socket server;
-    private BufferedReader isr;
+    private Client clientInstance;
+    private ObjectInputStream isr;
+    private ObjectOutputStream os;
 
-    public ServerConnection(Socket server) throws IOException
+    public ServerConnection(Socket server, Client client) throws IOException
     {
+        this.clientInstance = client;
         this.server = server;
-        isr = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        isr = new ObjectInputStream(server.getInputStream());
+        os = new ObjectOutputStream(server.getOutputStream());
     }
 
-    public void run()
+    public synchronized void run()
     {
         while(true)
         {
             try
-            {
-                String command = isr.readLine();
-                System.out.println("Someone said: "+command);
+            {     
+                Elements arr[][] = (Elements[][])(isr.readObject());
+                System.out.println("asdkjalksdjalksjlkjldasd");
+                System.out.println("Got an array");
+                clientInstance.setGrid(arr);
+                os.writeObject(clientInstance.getGrid());
+                os.flush();
             }
-            catch(Exception e){}
+            catch(Exception e){
+            }
         }
     }
 }
