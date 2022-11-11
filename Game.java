@@ -8,7 +8,7 @@ public class Game {
 		grid = new Elements[20][20];
 	}
 
-    public Elements[][] getGrid()
+    public synchronized Elements[][] getGrid()
     {
         return grid;
     }

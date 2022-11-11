@@ -32,60 +32,72 @@ public class Tank extends Elements implements Serializable {
 		}
 	}
 	
-	public Elements[][] move(Elements[][] grid, char dir) {
+	public Tank move(Elements[][] grid, char dir) {
+		int x1 = x;
+		int y1 = y;
 		if(dir == 'f') {
 			if(this.direction == 1 && this.y > 0 && grid[y-1][x] == null) {
-				grid[y][x] = null;
 				y--;
-				grid[y][x] = this;
-			} else if(this.direction == 2 && this.y > 0 && this.x < 59 && grid[y-1][x+1] == null) {
-				grid[y][x] = null;
+			} else if(this.direction == 2 && this.y > 0 && this.x < 19 && grid[y-1][x+1] == null) {
 				y--;
 				x++;
-				grid[y][x] = this;
-			} else if(this.direction == 3 && this.x < 59 && grid[y][x+1] == null) {
-				grid[y][x] = null;
+			} else if(this.direction == 3 && this.x < 19 && grid[y][x+1] == null) {
 				x++;
-				grid[y][x] = this;
-			} else if(this.direction == 4 && this.y < 59 && this.x < 59 && grid[y+1][x+1] == null) {
-				grid[y][x] = null;
+			} else if(this.direction == 4 && this.y < 19 && this.x < 19 && grid[y+1][x+1] == null) {
 				y++;
 				x++;
-				grid[y][x] = this;
-			} else if(this.direction == 5 && this.y < 59 && grid[y+1][x] == null) {
-				grid[y][x] = null;
+			} else if(this.direction == 5 && this.y < 19 && grid[y+1][x] == null) {
 				y++;
-				grid[y][x] = this;
-			} else if(this.direction == 6 && this.y < 59 && this.x > 0 && grid[y+1][x-1] == null) {
-				grid[y][x] = null;
+			} else if(this.direction == 6 && this.y < 19 && this.x > 0 && grid[y+1][x-1] == null) {
 				y++;
 				x--;
-				grid[y][x] = this;
 			} else if(this.direction == 7 && this.x > 0 && grid[y][x-1] == null) {
-				grid[y][x] = null;
 				x--;
-				grid[y][x] = this;
 			} else if(this.direction == 8 && this.y > 0 && this.x > 0 && grid[y-1][x-1] == null) {
-				grid[y][x] = null;
 				y--;
 				x--;
-				grid[y][x] = this;
 			}
 		}
-		return grid;
+		else if(dir == 'b') {
+			if(this.direction == 1 && this.y < 19 && grid[y+1][x] == null) {
+				y++;
+			} else if(this.direction == 2 && this.y < 19 && this.x > 0 && grid[y+1][x-1] == null) {
+				y++;
+				x--;
+			} else if(this.direction == 3 && this.x > 0 && grid[y][x-1] == null) {
+				x--;
+			} else if(this.direction == 4 && this.y > 0 && this.x > 0 && grid[y-1][x-1] == null) {
+				y--;
+				x--;
+			} else if(this.direction == 5 && this.y > 0 && grid[y-1][x] == null) {
+				y--;
+			} else if(this.direction == 6 && this.y > 0 && this.x < 19 && grid[y-1][x+1] == null) {
+				y--;
+				x++;
+			} else if(this.direction == 7 && this.x < 19 && grid[y][x+1] == null) {
+				x++;
+			} else if(this.direction == 8 && this.y < 19 && this.x < 19 && grid[y+1][x+1] == null) {
+				y++;
+				x++;
+			}
+		}
+		Tank newTank = new Tank(x,y,color,direction);
+		grid[y1][x1] = null;
+		grid[y][x] = newTank;
+		return newTank;
 }
 	
 	public void draw(PaintEvent screen, Display display) {
 		//System.out.println("I T   I S   D R A W I N G !");
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
-		screen.gc.drawRectangle(10*x, 10*y, 50, 50);
-		screen.gc.fillRectangle(10*x, 10*y, 100, 100);
+		screen.gc.drawRectangle(24*x, 24*y, 24, 24);
+		screen.gc.fillRectangle(24*x, 24*y, 48, 48);
 		//System.out.println("body: " + 10*x + 10*y);
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
-		screen.gc.drawOval(10*x, 10*y, 50, 50);
-		screen.gc.fillOval(10*x, 10*y, 100, 100);
+		screen.gc.drawOval(24*x, 24*y, 24, 24);
+		screen.gc.fillOval(24*x, 24*y, 48, 48);
 		int xOffset = 0;
 		int yOffset = 0;
 		if(direction == 1) {
@@ -109,9 +121,15 @@ public class Tank extends Elements implements Serializable {
 			yOffset = -8;
 			xOffset = -8;
 		}
-		screen.gc.drawLine((10*x)+25, (10*y)+25, (10*x)+25+xOffset, (10*y)+25+yOffset);
+		screen.gc.drawLine((24*x)+25, (24*y)+25, (24*x)+25+xOffset, (24*y)+25+yOffset);
 	}
-
+	
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 	@Override
 	public String toString() {
 		return "Tank [x=" + x + ", y=" + y + ", direction=" + direction + "]";

@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 //import org.eclipse.swt.events.DisposeEvent;
 //import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -19,15 +21,14 @@ public class Client {
     private Socket client;
 	private PrintWriter pw;
     private Elements[][] grid;
-    private boolean redraw = false;
+    public boolean redraw = false;
+    public boolean writable = false;
     private Display display;
     private Shell shell;
     private Canvas canvas;
-    private Tank t;
+    private Tank t; 
     
     public Client(String address) throws Exception {
-
-    	System.out.println("ALANKRIT JAY-SYNTH MOZEZ sucks");
     	Display.setAppName("XTANK");
         display = new Display();
         shell = new Shell(display);
@@ -55,7 +56,6 @@ public class Client {
         while(grid==null) {
         	System.out.print("");
         }
-        System.out.println("grid: "+grid[3][3]);
         draw();
         shell.open();
         shell.setSize(1000, 1000);
@@ -71,9 +71,6 @@ public class Client {
         }
         display.dispose();
         
-        System.out.println("ALANKRIT JAY-SYNTH MOZEZ sucks");
-        //this.draw();
-        
         
     }
 
@@ -81,8 +78,8 @@ public class Client {
     {
     	try 
     	{
-	        System.out.println("You said: "+command);
-	        pw.println(command); 
+	        //System.out.println("You said: "+command);
+	        pw.println(command);
 	        pw.flush();
         }
         catch(Exception e){
@@ -92,9 +89,8 @@ public class Client {
 
     public void setGrid(Elements[][] grid)
     {
-    	System.out.println("GRID WAS SET!!!" + grid);
+    	//System.out.println("GRID WAS SET!!!" + grid);
         this.grid = grid;
-        System.out.println("TRYING TO DRAW");
         this.redraw = true;
     }
 
@@ -105,36 +101,113 @@ public class Client {
     
     public void setTank(Tank t)
     {
+    	System.out.println("Tank before: "+this.t);
     	this.t = t;
     	System.out.println("Tank SET: "+this.t);
     }
     
     public void draw() {
-
-        System.out.println("DRAWING...");
         this.shell.addPaintListener(new PaintListener(){
             public void paintControl(PaintEvent e)
             {
-            	System.out.println("DRAW WAS CALLED!!!");
-            	Rectangle rect = shell.getClientArea();
-                e.gc.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
-                e.gc.fillRectangle(rect.x, rect.y, rect.width, rect.height);
-                e.gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
-                for(int i = 0; i < 20; i++) {
-                	for(int j = 0; j < 20; j++) {
-                		if (grid[i][j] != null) {
-                			System.out.println("WORKS");
-                			grid[i][j].draw(e,display);
-                		}
-                	}
-                }
+            	if(grid!=null)
+            	{
+                	//System.out.println("DRAW WAS CALLED!!!");
+            		Rectangle rect = shell.getClientArea();
+                    e.gc.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+                    e.gc.fillRectangle(rect.x, rect.y, rect.width, rect.height);
+                    e.gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
+                    for(int i = 0; i < 20; i++) {
+                    	for(int j = 0; j < 20; j++) {
+                    		if (grid[i][j] != null) {
+                    			//System.out.println("WORKS");
+                    			grid[i][j].draw(e,display);
+                    		}
+                    	}
+                    }
+            	}
+            	
             }
         });
-        shell.setSize(1000,1000);
+        
+        shell.addKeyListener(new KeyListener() {
+        	public void keyPressed(KeyEvent e)
+        	{
+    			grid = null;
+    			writable = false;
+        		Tank oldTank = t;
+        		if(e.keyCode==16777217)
+        		{
+        			runServer("grid");
+        	        while(grid==null) {
+        	        	System.out.print("");
+        	        }
+        	        t = t.move(grid, 'f');
+        	        writable = true;
+        	        redraw = true;
+        		}
+        		else if(e.keyCode==16777218)
+        		{
+        			runServer("grid");
+        	        while(grid==null) {
+        	        	System.out.print("");
+        	        }
+        	        t = t.move(grid, 'b');
+        	        writable = true;
+        	        redraw = true;
+        		}
+        		else if(e.keyCode==16777219)
+        		{
+        			System.out.println("TURNING LEFT");
+        			runServer("grid");
+        	        while(grid==null) {
+        	        	System.out.print("");
+        	        }
+        	        t.changeDirection('l');
+        	        writable = true;
+        	        redraw = true;
+        		}
+        		else if(e.keyCode==16777220)
+        		{
+        			System.out.println("TURNING right");
+        			runServer("grid");
+        	        while(grid==null) {
+        	        	System.out.print("");
+        	        }
+        	        t.changeDirection('r');
+        	        writable = true;
+        	        redraw = true;
+        		}
+        	}
+        	
+        	private void direction(char c) {}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+			}
+        });
     }
     
     public static void main(String args[]) throws Exception
     {
         Client s = new Client("DONE");
     }
+
+	public Tank getTank() {
+		return t;
+	}
+	public void printGrid() {
+		for(int x=0;x<20;x++)
+		{
+			for(int y=0;y<20;y++)
+			{
+				if(grid[x][y]==null)
+					System.out.print('.');
+				else
+					System.out.print('T');
+			}
+			System.out.println();
+		}
+	}
 }

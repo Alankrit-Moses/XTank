@@ -28,34 +28,36 @@ public class ClientHandler implements Runnable {
 			while(true)
 			{
 				String command = this.getReader().readLine();
-				System.out.println("Command Read");
+				System.out.println(command);
 				if(command.startsWith("grid"))
 				{
 					output.writeObject(g.getGrid());
 					output.flush();
 					System.out.println("Grid given: "+g.getGrid());
 					g.setGrid((Elements[][])(isr.readObject()));
+					System.out.println("Grid read: "+g.getGrid());
+					g.printGrid();
 				}
 				else if(command.equals("generate"))
 				{
-					int x = 3;
-					int y = 3;
+					int x = ThreadLocalRandom.current().nextInt(0,20);	
+					int y = ThreadLocalRandom.current().nextInt(0,20);
 					Elements[][] grid = g.getGrid();
-					while(grid[x][y]!=null)
+					while(grid[y][x]!=null)
 					{
 						x = ThreadLocalRandom.current().nextInt(0,20);	
 						y = ThreadLocalRandom.current().nextInt(0,20);
 					}
 					System.out.println(x+" "+y);
 					Elements tank = new Tank(x,y,1,1);
-					grid[x][y] = tank;
+					grid[y][x] = tank;
 					g.setGrid(grid);
 					System.out.println("Added new TANK!");
 					output.writeObject("tank");
 					output.writeObject(tank);
 					output.flush();
 					//outToAll("print",grid);
-					System.out.println("WRITING SUCCESS..."+grid+"   "+grid[x][y]);
+					System.out.println("WRITING SUCCESS..."+grid+"   "+grid[y][x]);
 					g.setGrid(grid);
 					//g.setGrid((Elements[][])(isr.readObject()));
 					System.out.println("SETTING SUCCESS...");
@@ -79,7 +81,6 @@ public class ClientHandler implements Runnable {
 				client1.isr.readObject();
 			}
 		}
-		System.out.println("Written to all and READ FROM ALL");
 	}
 
 	public void outToAll(String msg, Elements arr[][]) throws IOException
