@@ -91,13 +91,13 @@ public class Tank extends Elements implements Serializable {
 		//System.out.println("I T   I S   D R A W I N G !");
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
-		screen.gc.drawRectangle(24*x, 24*y, 24, 24);
-		screen.gc.fillRectangle(24*x, 24*y, 48, 48);
+		screen.gc.drawRectangle(50*x, 50*y, 24, 24);
+		screen.gc.fillRectangle(50*x, 50*y, 48, 48);
 		//System.out.println("body: " + 10*x + 10*y);
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_DARK_GREEN));
-		screen.gc.drawOval(24*x, 24*y, 24, 24);
-		screen.gc.fillOval(24*x, 24*y, 48, 48);
+		screen.gc.drawOval(50*x+4, 50*y+4, 40, 40);
+		screen.gc.fillOval(50*x+4, 50*y+4, 40, 40);
 		int xOffset = 0;
 		int yOffset = 0;
 		if(direction == 1) {
@@ -121,7 +121,13 @@ public class Tank extends Elements implements Serializable {
 			yOffset = -8;
 			xOffset = -8;
 		}
-		screen.gc.drawLine((24*x)+25, (24*y)+25, (24*x)+25+xOffset, (24*y)+25+yOffset);
+		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
+		System.out.println("Drawing line");
+		screen.gc.drawLine((50*x)+24, (50*y)+24, (50*x)+24+xOffset, (50*y)+24+yOffset);
+		screen.gc.drawLine((50*x)+25, (50*y)+24, (50*x)+25+xOffset, (50*y)+24+yOffset);
+		screen.gc.drawLine((50*x)+23, (50*y)+24, (50*x)+23+xOffset, (50*y)+24+yOffset);
+		System.out.println("Line drawn");
 	}
 	
 	public int getX(){

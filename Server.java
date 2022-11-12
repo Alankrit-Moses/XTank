@@ -2,7 +2,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
-public class Server {
+public class Server{
 	ServerSocket s;
 	ArrayList<ClientHandler> clients;
 	private static ExecutorService pool;
@@ -15,10 +15,10 @@ public class Server {
 		g = new Game();
 		System.out.println("Server at: "+s.getInetAddress());
 		System.out.println("Server Started: waiting for client...");
-		this.acceptClient();
+		acceptClient();
 	}
 	
-	public Socket acceptClient() throws IOException
+	public void acceptClient() throws IOException
 	{
 		while(true){
 			Socket client = s.accept();

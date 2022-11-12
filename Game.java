@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
 	
@@ -6,6 +7,18 @@ public class Game {
 	public Game() {
         // If change numbers here, then change in client as well
 		grid = new Elements[20][20];
+		
+		for(int x1=0;x1<20;x1++)
+		{
+			int x = ThreadLocalRandom.current().nextInt(0,20);
+			int y = ThreadLocalRandom.current().nextInt(0,20);
+			while(grid[y][x]!=null)
+			{
+				x = ThreadLocalRandom.current().nextInt(0,20);	
+				y = ThreadLocalRandom.current().nextInt(0,20);
+			}
+			grid[y][x] = new Wall(x,y,1,1);
+		}
 	}
 
     public synchronized Elements[][] getGrid()
@@ -25,8 +38,10 @@ public class Game {
 			{
 				if(grid[x][y]==null)
 					System.out.print('.');
-				else
+				else if(grid[x][y] instanceof Tank)
 					System.out.print('T');
+				else
+					System.out.print('W');
 			}
 			System.out.println();
 		}

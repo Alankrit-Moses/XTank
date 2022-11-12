@@ -2,7 +2,6 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -34,17 +33,10 @@ public class Client {
         shell = new Shell(display);
         shell.setText("XTANK");
         shell.setLayout(new GridLayout());
-    	// ---- create widgets for the interface
-        //Composite upperComp = new Composite(shell, SWT.NO_FOCUS);
-        //canvas = new Canvas(upperComp, SWT.NONE);
-        //canvas.setSize(1000, 1000);
-
-        // ---- canvas for the document
         
-        
-        Scanner sc = new Scanner(System.in);
-    	System.out.println("Enter Server Address: ");
-        address = sc.nextLine();
+//      Scanner sc = new Scanner(System.in);
+//    	System.out.println("Enter Server Address: ");
+//      address = sc.nextLine();
         this.client = new Socket(address,4444);
         ServerConnection serverConn = new ServerConnection(this.client, this);
 
@@ -58,7 +50,7 @@ public class Client {
         }
         draw();
         shell.open();
-        shell.setSize(1000, 1000);
+        shell.setSize(1050, 1050);
         while (!shell.isDisposed())
         {
             if (!display.readAndDispatch()) {
@@ -120,7 +112,6 @@ public class Client {
                     for(int i = 0; i < 20; i++) {
                     	for(int j = 0; j < 20; j++) {
                     		if (grid[i][j] != null) {
-                    			//System.out.println("WORKS");
                     			grid[i][j].draw(e,display);
                     		}
                     	}
@@ -164,6 +155,7 @@ public class Client {
         	        	System.out.print("");
         	        }
         	        t.changeDirection('l');
+        	        grid[t.getY()][t.getX()] = t;
         	        writable = true;
         	        redraw = true;
         		}
@@ -175,25 +167,22 @@ public class Client {
         	        	System.out.print("");
         	        }
         	        t.changeDirection('r');
+        	        grid[t.getY()][t.getX()] = t;
         	        writable = true;
         	        redraw = true;
         		}
         	}
-        	
-        	private void direction(char c) {}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-			}
+			public void keyReleased(KeyEvent e) {}
         });
     }
     
     public static void main(String args[]) throws Exception
     {
-        Client s = new Client("DONE");
+        Client s = new Client("100.64.1.149");
     }
-
+    
 	public Tank getTank() {
 		return t;
 	}
