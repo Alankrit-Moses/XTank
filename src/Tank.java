@@ -24,7 +24,17 @@ public class Tank extends Elements implements Serializable {
 		damage = 21;
 	}
 	
-	public void changeDirection(char dir) {
+	public Tank(int gridCol, int gridRow, int color, int direction, int health) {
+		x = gridCol;
+		y = gridRow;
+		this.color = color;
+		this.direction = direction;
+		destroyed = false;
+		this.health = health;
+		damage = 21;
+	}
+	
+	public Tank changeDirection(char dir) {
 		if (dir == 'l') {
 			direction--;
 		}
@@ -37,6 +47,7 @@ public class Tank extends Elements implements Serializable {
 		if (direction > 8) {
 			direction = 1;
 		}
+		return this;
 	}
 	
 	public Tank move(Elements[][] grid, char dir) {
@@ -88,7 +99,7 @@ public class Tank extends Elements implements Serializable {
 				x++;
 			}
 		}
-		Tank newTank = new Tank(x,y,color,direction);
+		Tank newTank = new Tank(x,y,color,direction,health);
 		grid[y1][x1] = null;
 		grid[y][x] = newTank;
 		return newTank;
@@ -164,13 +175,12 @@ public class Tank extends Elements implements Serializable {
 			}
 			if(grid[y1][x1] instanceof Tank)
 			{
-				hit = (Tank)grid[y1][x1];
-				hit.decrementHealth(this.damage);
+				Object obj = grid[y1][x1];
+				//System.out.println(obj);
+				hit = (Tank)obj;
+				hit.decrementHealth();
 				if(hit.health<=0)
-				{
-					hit.destroyed = true;
 					grid[y1][x1] = null;
-				}
 				break;
 			}
 			else if(grid[y1][x1] instanceof Wall)
@@ -183,8 +193,14 @@ public class Tank extends Elements implements Serializable {
 		return grid;
 	}
 	
-	public void decrementHealth(int damage) {
+	public void decrementHealth() {
+		System.out.println("CLEAN SHOT!!!");
 		this.health-=damage;
+		if(this.health<=0)
+		{
+			System.out.println("DESTROYED!!!");
+			this.destroyed = true;
+		}
 	}
 
 	public int getX(){
@@ -201,4 +217,6 @@ public class Tank extends Elements implements Serializable {
 	public boolean isdestroyed() {
 		return destroyed;
 	}
+	
+
 }

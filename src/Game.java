@@ -56,6 +56,11 @@ public class Game {
 			{
 				if(grid[x][y] instanceof Bullet)
 					grid[x][y] = null;
+				else if(grid[x][y] instanceof Tank)
+				{
+					if(((Tank)grid[x][y]).isdestroyed())
+							grid[x][y] = null;
+				}
 			}
 			System.out.println();
 		}

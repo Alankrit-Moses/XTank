@@ -29,9 +29,19 @@ public class ServerConnection implements Runnable
                     os.writeObject(clientInstance.getGrid());
                     os.flush();
             	}
+            	else if(obj instanceof Tank)
+            	{
+            		//System.out.println("..........................Setting TANK!................................................");
+            		Tank hit = (Tank)(obj);
+            		Tank get = clientInstance.getTank();
+            		if(get.getY()==hit.getY() && get.getX()==hit.getX())
+            		{
+            			clientInstance.setTank(hit);
+            		}
+                    //System.out.println("..........................TANK SET!....................................................");
+            	}
             	else if(((String)(obj)).equals("tank"))
             	{
-            		System.out.println("\nSetting TANK!");
             		obj = isr.readObject();
             		Tank t = (Tank)(obj);
                     clientInstance.setTank(t);

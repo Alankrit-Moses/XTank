@@ -9,6 +9,7 @@ import org.eclipse.swt.events.KeyListener;
 //import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -39,15 +40,16 @@ public class Client {
 
         new Thread(serverConn).start();
         pw = new PrintWriter(client.getOutputStream(),true);
-        System.out.println("grid: "+grid);
+        //System.out.println("grid: "+grid);
         this.runServer("generate");
+        System.out.println("AFTER GENERATING");
         this.runServer("grid");
         while(grid==null) {
         	System.out.print("");
         }
         draw();
         shell.open();
-        shell.setSize(1050, 1050);
+        shell.setSize(1400, 1050);
         while (!shell.isDisposed())
         {
             if (!display.readAndDispatch()) {
@@ -67,22 +69,26 @@ public class Client {
     {
     	try 
     	{
+    		System.out.println("You said"+command);
 	        pw.println(command);
 	        pw.flush();
         }
         catch(Exception e){
-        	System.out.println(e);
+        	e.printStackTrace();
         }
     }
 
     public void setGrid(Elements[][] grid)
     {
         this.grid = grid;
-        if(((Tank)grid[t.getY()][t.getX()])==null)
-        {
-        	gameOver = true;
-        	freezeClient();
+        try{
+        	t = (Tank) grid[t.getY()][t.getX()];
         }
+        catch(Exception e){
+        	t = null;
+        }
+        if(t==null)
+        	this.gameOver = true;
         this.redraw = true;
     }
 
@@ -102,9 +108,8 @@ public class Client {
             {
             	if(grid!=null)
             	{
-            		Rectangle rect = shell.getClientArea();
                     e.gc.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
-                    e.gc.fillRectangle(rect.x, rect.y, rect.width, rect.height);
+                    e.gc.fillRectangle(0, 0, 1000, 1050);
                     e.gc.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
                     for(int i = 0; i < 20; i++) {
                     	for(int j = 0; j < 20; j++) {
@@ -114,7 +119,24 @@ public class Client {
                     	}
                     }
             	}
-            	
+            	e.gc.setBackground(display.getSystemColor(SWT.COLOR_DARK_BLUE));
+                e.gc.fillRectangle(1000, 0, 1400, 1050);
+            	//e.gc.setBackground(display.getSystemColor(SWT.COLOR_CYAN));
+            	e.gc.setForeground(display.getSystemColor(SWT.COLOR_YELLOW));
+            	e.gc.setFont(new Font(display, "Helvetica", 16, SWT.BOLD));
+            	e.gc.drawString("Up arrow:", 1020, 50);
+            	e.gc.drawString("To move forward", 1020, 90);
+            	e.gc.drawString("Down arrow:", 1020, 150);
+            	e.gc.drawString("To move backward", 1020, 190);
+            	e.gc.drawString("Right arrow", 1020, 250);
+            	e.gc.drawString("To turn clockwise", 1020, 290);
+            	e.gc.drawString("Left arrow:", 1020, 350);
+            	e.gc.drawString("To turn anti-clockwise", 1020, 390);
+            	e.gc.drawString("Space:", 1020, 450);
+            	e.gc.drawString("To shoot", 1020, 490);
+            	if(gameOver) {
+            		e.gc.drawString("GAME OVER!!!", 1020, 600);
+            	}
             }
         });
         
@@ -133,7 +155,7 @@ public class Client {
 	        	        while(grid==null) {
 	        	        	System.out.print("");
 	        	        }
-	        	        t = t.move(grid, 'f');
+	        	        t = ((Tank)grid[t.getY()][t.getX()]).move(grid, 'f');
 	        	        writable = true;
 	        	        redraw = true;
 	        		}
@@ -143,7 +165,7 @@ public class Client {
 	        	        while(grid==null) {
 	        	        	System.out.print("");
 	        	        }
-	        	        t = t.move(grid, 'b');
+	        	        t = ((Tank)grid[t.getY()][t.getX()]).move(grid, 'b');
 	        	        writable = true;
 	        	        redraw = true;
 	        		}
@@ -154,8 +176,8 @@ public class Client {
 	        	        while(grid==null) {
 	        	        	System.out.print("");
 	        	        }
-	        	        t.changeDirection('l');
-	        	        grid[t.getY()][t.getX()] = t;
+	        	        t = ((Tank)grid[t.getY()][t.getX()]).changeDirection('l');
+	        	        //grid[t.getY()][t.getX()] = t;
 	        	        writable = true;
 	        	        redraw = true;
 	        		}
@@ -166,7 +188,7 @@ public class Client {
 	        	        while(grid==null) {
 	        	        	System.out.print("");
 	        	        }
-	        	        t.changeDirection('r');
+	        	        t = ((Tank)grid[t.getY()][t.getX()]).changeDirection('r');
 	        	        grid[t.getY()][t.getX()] = t;
 	        	        writable = true;
 	        	        redraw = true;

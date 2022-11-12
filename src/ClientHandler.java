@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
 		this.clients = clients;
 		this.input = new BufferedReader(new InputStreamReader(client.getInputStream()));
 		this.output = new ObjectOutputStream(client.getOutputStream());
-		isr = new ObjectInputStream(client.getInputStream());
+		this.isr = new ObjectInputStream(client.getInputStream());
 	}
 
 	public void run()
@@ -43,17 +43,18 @@ public class ClientHandler implements Runnable {
 		try{
 			while(true)
 			{
-				String command = this.getReader().readLine();
-				System.out.println(command);
-				if(command.startsWith("grid"))
+				String command = this.input.readLine();
+				//System.out.println("Server listened: "+command);
+				if(command.contains("grid"))
 				{
 					output.writeObject(g.getGrid());
 					output.flush();
 					g.setGrid((Elements[][])(isr.readObject()));
 					g.printGrid();
 				}
-				else if(command.equals("generate"))
+				else if(command.contains("generate"))
 				{
+					//System.out.print("DURING GENERATION....");
 					int x = ThreadLocalRandom.current().nextInt(0,20);	
 					int y = ThreadLocalRandom.current().nextInt(0,20);
 					Elements[][] grid = g.getGrid();
@@ -65,18 +66,46 @@ public class ClientHandler implements Runnable {
 					Elements tank = new Tank(x,y,available[clients.size()],1);
 					grid[y][x] = tank;
 					g.setGrid(grid);
+					//System.out.print("DURING GENERATION....");
 					output.writeObject("tank");
 					output.writeObject(tank);
 					output.flush();
 					g.setGrid(grid);
 					g.printGrid();
 				}
+				else if(command.contains("hit"))
+				{
+					System.out.println("HIT SOMEONE");
+					String[] splitted = command.split(" ");
+					int y = Integer.parseInt(splitted[1]);
+					int x = Integer.parseInt(splitted[2]);
+					Elements[][] grid = g.getGrid();
+					Tank hit = (Tank)grid[y][x];
+					hit.decrementHealth();
+					if(hit.isdestroyed())
+					{
+						g.setGrid(grid);
+						for(ClientHandler client1: clients)
+						{
+							client1.output.writeObject(hit);
+							client1.output.flush();
+						}
+					}
+					else
+					{
+						System.out.println("Setting as a grid element");
+						grid[hit.getY()][hit.getX()] = hit;
+						g.setGrid(grid);
+						g.printGrid();
+					}
+					
+				}
 				outToAll("print",g.getGrid());
 				g.removeBullets();
 			}
 		}
-		catch(Exception e){
-		}
+		catch(Exception e){}
+		
 	}
 
 	public void outToAll(Elements arr[][]) throws IOException, ClassNotFoundException
