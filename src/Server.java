@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-public class Server{
+public class Server implements Runnable{
 	ServerSocket s;
 	ArrayList<ClientHandler> clients;
 	private static ExecutorService pool;
@@ -18,18 +18,29 @@ public class Server{
 		g = new Game();
 		System.out.println("Server at: "+s.getInetAddress());
 		System.out.println("Server Started: waiting for client...");
-		acceptClient();
+		//acceptClient();
 	}
 	
-	public void acceptClient() throws IOException
+	public void run()
 	{
+		boolean check = true;
 		while(true){
-			Socket client = s.accept();
-			ClientHandler handler = new ClientHandler(client,clients,g);
-			clients.add(handler);
-			System.out.println("Client connected "+client);
-			pool.execute(handler);
+			Socket client;
+			try {
+				client = s.accept();
+				ClientHandler handler = new ClientHandler(client,clients,g);
+				clients.add(handler);
+				System.out.println("Client connected "+client);
+				pool.execute(handler);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+	}
+	
+	public String getAddress() {
+		return (""+s.getInetAddress()).split("/")[1];
 	}
  
 	public static void main(String args[]) throws IOException

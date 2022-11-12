@@ -26,12 +26,12 @@ public class Game {
         return grid;
     }
 
-    public void setGrid(Elements[][] grid)
+    public synchronized void setGrid(Elements[][] grid)
     {
         this.grid = grid;
     }
 
-	public void printGrid() {
+	public synchronized void printGrid() {
 		for(int x=0;x<20;x++)
 		{
 			for(int y=0;y<20;y++)
@@ -49,7 +49,7 @@ public class Game {
 		}
 	}
 
-	public void removeBullets() {
+	public synchronized void removeBullets() {
 		for(int x=0;x<20;x++)
 		{
 			for(int y=0;y<20;y++)

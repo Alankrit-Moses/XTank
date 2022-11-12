@@ -28,10 +28,13 @@ public class Client {
     private Canvas canvas;
     private boolean gameOver = false;
     private Tank t;
+    private String serverAddress;
     
-    public Client(String address) throws Exception {
+    public Client(String address, Display display) throws Exception {
+    	this.serverAddress = address;
     	Display.setAppName("XTANK");
-        display = new Display();
+        this.display = display;
+        //display.getShells()[0].dispose();
         shell = new Shell(display);
         shell.setText("XTANK");
         shell.setLayout(new GridLayout());
@@ -137,6 +140,8 @@ public class Client {
             	if(gameOver) {
             		e.gc.drawString("GAME OVER!!!", 1020, 600);
             	}
+            	e.gc.drawString("Server Address:", 1020, 900);
+            	e.gc.drawString(serverAddress, 1020, 940);
             }
         });
         
@@ -212,10 +217,10 @@ public class Client {
         });
     }
     
-    public static void main(String args[]) throws Exception
+    /*public static void main(String args[]) throws Exception
     {
-        Client s = new Client("100.64.10.100");
-    }
+        Client s = new Client("100.64.10.100", new Display);
+    }*/
     
     public void freezeClient()
     {
