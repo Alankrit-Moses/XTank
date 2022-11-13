@@ -1,3 +1,11 @@
+/**
+ * File: Bullet.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the Bullet Class. It inherits from Elements. It keeps track of the bullet
+ * from a tank and draws it accordingly on the screen.
+ */
 import java.io.Serializable;
 
 import org.eclipse.swt.SWT;
@@ -15,6 +23,9 @@ public class Bullet extends Elements implements Serializable{
 		drawable = true;
 	}
 	
+	/**
+	 * This method is used to draw the bullet on the screen.
+	 */
 	@Override
 	public void draw(PaintEvent screen, Display display) {
 		screen.gc.drawOval(50*x+15, 50*y+15, 20, 20);
