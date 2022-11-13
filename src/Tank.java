@@ -21,18 +21,31 @@ public class Tank extends Elements implements Serializable {
 	public int damage;
 	public int health;
 	private boolean destroyed;
+	private int armor;
 	
-	public Tank(int gridCol, int gridRow, int color, int direction) {
+	public Tank(int gridCol, int gridRow, int color, int direction, int damage, int armor) {
 		x = gridCol;
 		y = gridRow;
 		this.color = color;
 		this.direction = direction;
 		destroyed = false;
-		health = 100;
-		damage = 21;
+		health = armor;
+		this.armor = armor;
+		this.damage = damage;
 	}
 	
-	public Tank(int gridCol, int gridRow, int color, int direction, int health) {
+	public Tank(int gridCol, int gridRow, int color, int direction, int damage, int armor, int health) {
+		x = gridCol;
+		y = gridRow;
+		this.color = color;
+		this.direction = direction;
+		destroyed = false;
+		this.health = health;
+		this.armor = armor;
+		this.damage = damage;
+	}
+	
+	/*public Tank(int gridCol, int gridRow, int color, int direction, int health) {
 		x = gridCol;
 		y = gridRow;
 		this.color = color;
@@ -40,7 +53,7 @@ public class Tank extends Elements implements Serializable {
 		destroyed = false;
 		this.health = health;
 		damage = 21;
-	}
+	}*/
 	
 	/**
 	 * Move the noozle of the tank.
@@ -118,7 +131,7 @@ public class Tank extends Elements implements Serializable {
 				x++;
 			}
 		}
-		Tank newTank = new Tank(x,y,color,direction,health);
+		Tank newTank = new Tank(x,y,color,direction,this.damage, this.health,this.armor);
 		grid[y1][x1] = null;
 		grid[y][x] = newTank;
 		return newTank;
@@ -168,7 +181,8 @@ public class Tank extends Elements implements Serializable {
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_GREEN));
 		screen.gc.drawRectangle(50*x-1, 50*y-10-1, 52, 6);
-		screen.gc.fillRectangle(50*x, 50*y-10,health/2, 5);
+		int healthBar = (int)((((double)health)/armor)*50);
+		screen.gc.fillRectangle(50*x, 50*y-10,healthBar, 5);
 	}
 	
 	/**
@@ -223,9 +237,10 @@ public class Tank extends Elements implements Serializable {
 	/**
 	 * Decreases the health if the tank is shot.
 	 */
+	
 	public void decrementHealth() {
-		System.out.println("CLEAN SHOT!!!");
-		this.health-=damage;
+		this.health-=this.damage;
+		System.out.println("Health: "+this.health);
 		if(this.health<=0)
 		{
 			System.out.println("DESTROYED!!!");

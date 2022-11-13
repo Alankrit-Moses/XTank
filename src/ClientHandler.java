@@ -20,6 +20,8 @@ public class ClientHandler implements Runnable {
 	private BufferedReader input;
 	private ObjectOutputStream output;
 	private ObjectInputStream isr;
+	private int damage;
+	private int armor;
 	ArrayList<ClientHandler> clients;
 	Game g;
 	Color color;
@@ -43,9 +45,11 @@ public class ClientHandler implements Runnable {
 	 * @param g
 	 * @throws IOException
 	 */
-	public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients, Game g) throws IOException
+	public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients, Game g, int damage, int armor) throws IOException
 	{
 		this.color = color;
+		this.damage = damage;
+		this.armor = armor;
 		this.g = g;
 		this.client = clientSocket;
 		this.clients = clients;
@@ -82,7 +86,7 @@ public class ClientHandler implements Runnable {
 						x = ThreadLocalRandom.current().nextInt(0,20);	
 						y = ThreadLocalRandom.current().nextInt(0,20);
 					}
-					Elements tank = new Tank(x,y,available[clients.size()],1);
+					Elements tank = new Tank(x,y,available[clients.size()],1,this.damage, this.armor);
 					grid[y][x] = tank;
 					g.setGrid(grid);
 					//System.out.print("DURING GENERATION....");

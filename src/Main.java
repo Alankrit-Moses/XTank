@@ -74,15 +74,47 @@ public class Main {
 		
 		newServer.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				try {
-					new Thread(server = new Server()).start();;
-					display.getShells()[0].dispose();
-					client = new Client(server.getAddress(), display);
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				join.setVisible(false);
+				join.setEnabled(false);
+				newServer.setVisible(false);
+				newServer.setEnabled(false);
+				Label l2 = new Label(sh,SWT.NONE);
+				l2.setText("Enter Armor (100-200): ");
+				l2.setBounds(270,320,200,70);
+				l2.setFont( new Font(display,"Comic Sans MS", 10, SWT.BOLD ));
+				
+				Text t1 = new Text(sh, 0);
+				t1.setBounds(550, 320, 50, 30);
+				
+				Label l3 = new Label(sh,SWT.NONE);
+				l3.setText("Enter Damage (20-100): ");
+				l3.setBounds(270,400,200,70);
+				l3.setFont( new Font(display,"Comic Sans MS", 10, SWT.BOLD ));
+				
+				Text t2 = new Text(sh, 0);
+				t2.setBounds(550, 400, 50, 30);
+				
+				
+				Button start = new Button(sh,SWT.PUSH);
+				start.setBounds(350,500,100,100);
+				start.setText("START");
+				start.setFont( new Font(display,"Comic Sans MS", 10, SWT.BOLD ));
+				
+				start.addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event e) {
+						int armor = Integer.parseInt(t1.getText());
+						int damage = Integer.parseInt(t2.getText());
+						try {
+							new Thread(server = new Server(damage, armor)).start();
+							display.getShells()[0].dispose();
+							client = new Client(server.getAddress(), display);
+							
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
 			}
 		});
 		
@@ -97,8 +129,8 @@ public class Main {
 				l2.setBounds(270,320,630,70);
 				l2.setFont( new Font(display,"Comic Sans MS", 10, SWT.BOLD ));
 				
-				Text t1 = new Text(sh, 0);
-				t1.setBounds(270, 400, 570, 70);
+				Text t3 = new Text(sh, 0);
+				t3.setBounds(270, 400, 570, 70);
 				
 				Button start = new Button(sh,SWT.PUSH);
 				start.setBounds(300,500,100,100);
@@ -107,7 +139,7 @@ public class Main {
 				
 				start.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event e) {
-						String serverAddress = t1.getText();
+						String serverAddress = t3.getText();
 						display.getShells()[0].dispose();
 						try {
 							client = new Client(serverAddress, display);

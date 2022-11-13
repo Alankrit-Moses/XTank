@@ -18,8 +18,13 @@ public class Server implements Runnable{
 	ArrayList<ClientHandler> clients;
 	private static ExecutorService pool;
 	private Game g;
-	public Server() throws IOException
+	private int damage;
+	private int armor;
+	
+	public Server(int damage, int armor) throws IOException
 	{
+		this.damage = damage;
+		this.armor = armor;
 		pool = Executors.newFixedThreadPool(12);
 		clients = new ArrayList<>();
 		s = new ServerSocket(4444,0,InetAddress.getLocalHost());
@@ -39,7 +44,7 @@ public class Server implements Runnable{
 			Socket client;
 			try {
 				client = s.accept();
-				ClientHandler handler = new ClientHandler(client,clients,g);
+				ClientHandler handler = new ClientHandler(client,clients,g, damage, armor);
 				clients.add(handler);
 				System.out.println("Client connected "+client);
 				pool.execute(handler);
@@ -59,6 +64,6 @@ public class Server implements Runnable{
  
 	public static void main(String args[]) throws IOException
 	{
-		Server s =  new Server();
+		Server s =  new Server(0 , 0);
 	}
 }
