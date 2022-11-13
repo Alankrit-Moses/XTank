@@ -1,3 +1,11 @@
+/**
+ * File: Game.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the Game class. It contains the main grid of the game and is responsible 
+ * for managing the bullets.
+ */
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,11 +29,17 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Getter for grid
+	 */
     public synchronized Elements[][] getGrid()
     {
         return grid;
     }
 
+	/**
+     * Setter for grid
+     */
     public synchronized void setGrid(Elements[][] grid)
     {
         this.grid = grid;
@@ -49,6 +63,9 @@ public class Game {
 		}
 	}
 
+	/**
+     * Removes the bullet when it hits a tank or a wall.
+     */
 	public synchronized void removeBullets() {
 		for(int x=0;x<20;x++)
 		{
