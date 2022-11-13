@@ -1,3 +1,11 @@
+/**
+ * File: Main.java
+ * Assignment: CSC335PA3
+ * @author Aman Dwivedi
+ *
+ * Description: This is the Main class. It displays the opening window and lets the user
+ * choose between creating a new server or joining an existing server.
+ */
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Scanner;
@@ -41,6 +49,11 @@ public class Main {
 		display.dispose();
 	}
     
+    /**
+     * This function displays the opening window.
+     * @param display: SWT display
+     * @param sh: shell associated with current display
+     */
     public static void menu(Display display, Shell sh)
     {
     	
