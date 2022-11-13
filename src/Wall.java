@@ -1,3 +1,11 @@
+/**
+ * File: Wall.java
+ * Assignment: CSC335PA3
+ * @author Aman Dwivedi
+ *
+ * Description: This is the Wall class. It creates a Wall object which holds its position,
+ * direction.
+ */
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.widgets.Display;
@@ -16,6 +24,9 @@ public class Wall extends Elements implements Serializable{
 		this.direction = direction;
 	}
 	
+	/**
+	 * Draws the wall on the screen
+	 */	
 	@Override
 	public void draw(PaintEvent screen, Display display) {
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
