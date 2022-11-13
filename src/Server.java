@@ -1,3 +1,11 @@
+/**
+ * File: Server.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the Server class. It implements a runnable and connects to
+ * all the clients.
+ */
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -21,6 +29,9 @@ public class Server implements Runnable{
 		//acceptClient();
 	}
 	
+	/**
+	 * This method is responsible for connecting the clients on the server.
+	 */
 	public void run()
 	{
 		boolean check = true;
@@ -39,6 +50,9 @@ public class Server implements Runnable{
 		}
 	}
 	
+	/**
+	 * Getter for server address
+	 */
 	public String getAddress() {
 		return (""+s.getInetAddress()).split("/")[1];
 	}
