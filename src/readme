@@ -1,1 +1,7 @@
-This folder contains the src java files. We have used the Composite Pattern for the tank and Walls which inherits from the Elements class.
+This folder contains the src java files. We have used the Composite Pattern for the tank and Walls which inherits from the Elements class. The Server and Client are 
+based on the MVC architecture. 
+
+Due to slow internet issues, there might be a problem trying to connect to the server from other computers. It can also lead to a delay in sending/receiving data between
+server and client which causes asynchronous behaviour leading to errors and crashes. We would suggest you to please test it on a single machine. 
+Just run the main file and follow the oncscreen prompts. We are not handling invalid input so please be careful :)))
+Thankyou!
