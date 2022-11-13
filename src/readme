@@ -1,1 +1,1 @@
-This folder contains the src java files
+This folder contains the src java files. We have used the Composite Pattern for the tank and Walls which inherits from the Elements class.
