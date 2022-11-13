@@ -1,3 +1,12 @@
+/**
+ * File: ServerConnection.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the ServerConnection class. It implements a runnable.
+ * It is responsible for receiving commands from the server and processing
+ * it for the client.
+ */
 import java.util.*;
 import java.io.*;
 import java.net.*;
@@ -15,6 +24,9 @@ public class ServerConnection implements Runnable
         os = new ObjectOutputStream(server.getOutputStream());
     }
 
+/**
+     * Takes the command and processes them for the client.
+     */
     public void run()
     {
         while(true)
