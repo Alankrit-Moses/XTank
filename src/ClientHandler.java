@@ -1,3 +1,11 @@
+/**
+ * File: ClientHandler.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the ClientHandler class. It keeps track of all the clients on the 
+ * server. It implements Runnable.
+ */
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -27,6 +35,14 @@ public class ClientHandler implements Runnable {
 			SWT.COLOR_DARK_GREEN,
 			SWT.COLOR_DARK_MAGENTA,
 			SWT.COLOR_DARK_CYAN};
+	
+	/**
+	 * Constructor
+	 * @param clientSocket
+	 * @param clients
+	 * @param g
+	 * @throws IOException
+	 */
 	public ClientHandler(Socket clientSocket, ArrayList<ClientHandler> clients, Game g) throws IOException
 	{
 		this.color = color;
@@ -38,6 +54,9 @@ public class ClientHandler implements Runnable {
 		this.isr = new ObjectInputStream(client.getInputStream());
 	}
 
+	/**
+	 * Runs the command and changes the client appropriately. 
+	 */
 	public void run()
 	{
 		try{
@@ -108,6 +127,12 @@ public class ClientHandler implements Runnable {
 		
 	}
 
+	/**
+	 * Sends command to all the clients. Method Overriding.
+	 * @param arr
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void outToAll(Elements arr[][]) throws IOException, ClassNotFoundException
 	{
 		for(ClientHandler client1: clients){
@@ -120,6 +145,11 @@ public class ClientHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * Sends command to all the clients. Method Overriding.
+	 * @param msg: command stream
+	 * @param arr: Gaming grid
+	 */
 	public void outToAll(String msg, Elements arr[][]) throws IOException
 	{
 		for(ClientHandler client: clients){
@@ -132,6 +162,9 @@ public class ClientHandler implements Runnable {
 		}
 	}
 
+	/**
+	 * Getter for the input stream. 
+	 */
 	public BufferedReader getReader()
 	{
 		return this.input;
