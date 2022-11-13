@@ -1,3 +1,11 @@
+/**
+ * File: Tank.java
+ * Assignment: CSC335PA3
+ * @author Aman Dwivedi
+ *
+ * Description: This is the Tank class. It creates a tank object which holds its position,
+ * direction, damage, and health.
+ */
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
@@ -34,6 +42,11 @@ public class Tank extends Elements implements Serializable {
 		damage = 21;
 	}
 	
+	/**
+	 * Move the noozle of the tank.
+	 * @param dir
+	 * @return
+	 */
 	public Tank changeDirection(char dir) {
 		if (dir == 'l') {
 			direction--;
@@ -50,6 +63,12 @@ public class Tank extends Elements implements Serializable {
 		return this;
 	}
 	
+	/**
+	 * Move the tank around the grid.
+	 * @param grid
+	 * @param dir
+	 * @return
+	 */
 	public Tank move(Elements[][] grid, char dir) {
 		int x1 = x;
 		int y1 = y;
@@ -105,6 +124,9 @@ public class Tank extends Elements implements Serializable {
 		return newTank;
 	}
 	
+	/**
+	 * Draws the tank on the screen.
+	 */
 	public void draw(PaintEvent screen, Display display) {
 		screen.gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 		screen.gc.setBackground(display.getSystemColor(SWT.COLOR_BLACK));
@@ -149,6 +171,11 @@ public class Tank extends Elements implements Serializable {
 		screen.gc.fillRectangle(50*x, 50*y-10,health/2, 5);
 	}
 	
+	/**
+	 * Shoots a bullet.
+	 * @param grid
+	 * @return
+	 */
 	public Elements[][] shoot(Elements[][] grid)
 	{
 		int x1 = x;
@@ -193,6 +220,9 @@ public class Tank extends Elements implements Serializable {
 		return grid;
 	}
 	
+	/**
+	 * Decreases the health if the tank is shot.
+	 */
 	public void decrementHealth() {
 		System.out.println("CLEAN SHOT!!!");
 		this.health-=damage;
