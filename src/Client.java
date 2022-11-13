@@ -1,3 +1,11 @@
+/**
+ * File: Client.java
+ * Assignment: CSC335PA3
+ * @author Alankrit Moses
+ *
+ * Description: This is the Client class. It keeps track of the current client and
+ * it draws the screen on the user window. 
+ */
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -5,8 +13,6 @@ import java.util.concurrent.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
-//import org.eclipse.swt.events.DisposeEvent;
-//import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Font;
@@ -67,7 +73,11 @@ public class Client {
         
         
     }
-
+	
+	/**
+     * Writes the commands in the output stream.
+     * @param command: The command to write in output stream. 
+     */
     public void runServer(String command)
     {
     	try 
@@ -81,6 +91,10 @@ public class Client {
         }
     }
 
+	 /**
+     * Sets the current grid to the new grid.
+     * @param grid: New grid to be used
+     */
     public void setGrid(Elements[][] grid)
     {
         this.grid = grid;
@@ -95,16 +109,25 @@ public class Client {
         this.redraw = true;
     }
 
+	/**
+     * Getter for the current grid
+     */
     public Elements[][] getGrid()
     {
         return this.grid;
     }
     
+	/**
+     * Setter for the tank object
+     */
     public void setTank(Tank t)
     {
     	this.t = t;
     }
     
+	/**
+     * Draws the entire screen for the client.
+     */
     public void draw() {
         this.shell.addPaintListener(new PaintListener(){
             public void paintControl(PaintEvent e)
@@ -217,11 +240,6 @@ public class Client {
         });
     }
     
-    /*public static void main(String args[]) throws Exception
-    {
-        Client s = new Client("100.64.10.100", new Display);
-    }*/
-    
     public void freezeClient()
     {
     	runServer("grid");
@@ -232,6 +250,9 @@ public class Client {
         writable = true;
         redraw = true;
     }
+	 /**
+     * Getter for the tank object
+     */
 	public Tank getTank() {
 		return t;
 	}
